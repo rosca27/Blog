@@ -1,6 +1,6 @@
 ﻿@model Blog.Models.ViewModels.PostVM
 
-<form method="post" asp-action="Create" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
     <input asp-for="Post.Id" hidden />
     <input asp-for="Post.Picture" hidden />
     <input asp-for="Post.User" hidden />
@@ -9,7 +9,14 @@
         <div class="col-10">
             <div class="border p-3 mt-4 row">
                 <div class="col-12 pb-2">
-                    <h2 class="text-primary">Create Post</h2>
+                    @if (Model.Post.Id != null && Model.Post.Id != 0)
+                    {
+                        <h2 class="text-primary">Edit Post</h2>
+                    }
+                    else
+                    {
+                            <h2 class="text-primary">Create Post</h2>
+                    }
                     <hr />
                 </div>
             </div>
@@ -33,7 +40,17 @@
                 <select multiple="multiple" asp-for="TagString" asp-items="Model.TagList"class="multi-select form-control selectpicker" >
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+            @if (Model.Post.Id != null && Model.Post.Id != 0)
+            {
+                    <div class="col-2 pt-4">
+                        <img src="@Model.Post.Picture" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:150px"  asp-action="Edit">Edit</button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-primary" style="width:150px"  asp-action="Create">Create</button>
+            }
         </div>
     </div>
 

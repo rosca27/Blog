@@ -10,14 +10,6 @@
         <div class="col-6">
             <h2 class="text-primary">Post List</h2>
         </div>
-        <div class="col-6 text-end">
-            @if (User.IsInRole(SD.Role_Creator))
-            {
-                    <a asp-controller="Post" asp-action="Create" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> &nbsp; Create New Post
-                </a>
-            }
-        </div>
     </div>
     <br /><br />
 
@@ -49,10 +41,13 @@
                         @obj.User.FirstName
                         </td>
                         <td>
-                            <div class="w-75 btn-group" role="group">
-                                <a asp-area="Reader" asp-controller="Comment" asp-action="Delete" asp-route-id="@obj.Id"
-                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
-                            </div>
+                            <form method="post" asp-action="Delete">
+                                <div class="w-75 btn-group" role="group">
+                                        <input type="hidden" asp-for="@obj.Id" />
+                                            <button type="submit" asp-action="Delete" asp-route-id="@obj.Id"
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</button>
+                                </div>
+                            </form>
                         </td>
                     </tr>
             }

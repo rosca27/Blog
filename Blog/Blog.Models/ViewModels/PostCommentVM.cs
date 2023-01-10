@@ -11,5 +11,7 @@ namespace Blog.Models.ViewModels
         public Post Post { get; set; }
         public Tag Tag { get; set; }
         public IEnumerable<Comment> CommentList { get; set;}
+
+        public User User { get; set; }
     }
 }

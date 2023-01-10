@@ -132,7 +132,7 @@ public class PostController : Controller
             return NotFound();
         }
 
-        return View(postVM);
+        return View("Create",postVM);
     }
 
     //POST
@@ -184,62 +184,14 @@ public class PostController : Controller
         return RedirectToAction("Index");
     }
 
-
+    [HttpPost]
     public IActionResult Delete(int? id)
     {
-		PostVM postVM = new()
-        {
-            Post = new Post (),
-            TagList = _unitOfWork.Tag.GetAll().Select(i => new SelectListItem
-            {
-                Text = i.Name,
-                Value = i.Id.ToString()
-            })
-        };
-
-        if (id == null || id == 0)
+        if(id == null)
         {
             return NotFound();
         }
-        postVM.Post = _unitOfWork.Post.GetFirstOrDefault(x => x.Id == id);
-
-        if (postVM.Post == null)
-        {
-            return NotFound();
-        }
-
-        return View(postVM);
-    }
-
-    [HttpPost]
-    public IActionResult Delete(PostVM obj, IFormFile? file)
-    {
-        if (ModelState.IsValid)
-        {
-            string wwwRootPath = _hostEnvironment.WebRootPath;
-            if (file != null)
-            {
-                string fileName = Guid.NewGuid().ToString();
-                var uploads = Path.Combine(wwwRootPath, @"images\posts");
-                var extension = Path.GetExtension(file.FileName);
-
-                if (obj.Post.Picture != null)
-                {
-                    var oldImagePath = Path.Combine(wwwRootPath, obj.Post.Picture.TrimStart('\\'));
-                    if (System.IO.File.Exists(oldImagePath))
-                    {
-                        System.IO.File.Delete(oldImagePath);
-                    }
-                }
-
-                using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
-                {
-                    file.CopyTo(fileStreams);
-                }
-                obj.Post.Picture = @"\images\products\" + fileName + extension;
-            }
-        }
-        Post post = _db.Posts.Include(x => x.Comments).FirstOrDefault(x => x.Id == obj.Post.Id);
+        Post post = _db.Posts.Include(x => x.Comments).FirstOrDefault(x => x.Id == id);
         _unitOfWork.Post.Remove(post);
         _unitOfWork.Save();
         return RedirectToAction("Index");

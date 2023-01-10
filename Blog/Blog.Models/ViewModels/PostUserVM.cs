@@ -17,5 +17,10 @@ namespace Blog.Models.ViewModels
 
 		[ValidateNever]
 		public String snippet { get; set; }
+
+		public int MaxPages { get; set; } 
+		public int CurrentPage { get; set; } 
+        public int? TagEnable { get; set; }
+
 	}
 }

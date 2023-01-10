@@ -1,4 +1,5 @@
 ﻿@model Blog.Models.ViewModels.PostCommentVM
+@using Microsoft.AspNetCore.Identity;
 
 <form method="post"  asp-area="Reader" asp-controller="Home" asp-action="AddComment" asp-route-id="@Model.Post.Id">
         <div class="container">
@@ -10,7 +11,7 @@
                 <div class="col-12 col-md-6 text-end pt-4">
                 @foreach (Tag tag in Model.Post.Tags)
                 {
-                    <a asp-area="Reader" asp-controller="Home" asp-action="TagIndex" asp-route-id="@tag.Id"
+                    <a asp-area="Reader" asp-controller="Home" asp-action="Index" asp-route-id="@tag.Id"
                         class="badge bg-info pt-2" style="height:30px;">@tag.Name</a>
                 }
                 </div>
@@ -33,15 +34,20 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body row container">
-                <div class="row" style="resize:none">
-                    @Html.TextArea("Message")
+            
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="card-body row container">
+                    <div class="row" style="resize:none">
+                        @Html.TextArea("Message")
+                    </div>
+                    <div class="col-2">
+                        <br />
+                        <button type="submit" class="btn btn-secondary form-control " style="height:50px;">Add comment</button>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <br />
-                    <button type="submit" class="btn btn-secondary form-control " style="height:50px;">Add comment</button>
-                </div>
-            </div>
+            }
+        
         @foreach (Comment comment in Model.CommentList)
             {
 
@@ -50,10 +56,20 @@
                         <div class="row">
                             <div class="col-12 ">
                                 <label>@comment.User.FirstName</label>
-                                <textarea asp-for="@comment.Content" rows="3" class="form-control" style="resize:none"></textarea>
+                                <textarea asp-for="@comment.Content" rows="3" class="form-control" style="resize:none" readonly></textarea>
                             </div>
                         </div>
-                    </div>
+                    @if(Model.User == Model.Post.User)
+                    {
+                                <form method="post" asp-action="Delete">
+                                    <div class="w-75 btn-group" role="group">
+                                            <input type="hidden" asp-for="@Model.Post.Id" />
+                                                <button type="submit" asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id"
+                                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</button>
+                                    </div>
+                                </form>
+                    }
+                </div>
                 </div>
                 <br />
             }

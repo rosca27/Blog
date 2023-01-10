@@ -1,46 +1,93 @@
-﻿@using Microsoft.AspNetCore.Identity;
-@model List<Blog.Models.ViewModels.PostUserVM>
+﻿@model List<Blog.Models.ViewModels.PostUserVM>
 
 <div class="text-center">
-    @if (!User.Identity.IsAuthenticated)
+    @foreach(var obj in Model)
     {
-        <h1>Log In to see the posts from all Users</h1>
-    }
-    else
-    {
-        foreach(var obj in Model)
-        {
-					<div class="col-md-7" style="margin:auto; ">
-					<div class="row p-2">
-						<div class="col-12 p-1" style="border:1px solid black; border-radius: 5px;">
-							<div class="card">
-								<img src="@obj.Post.Picture" class="card-img-top rounded"/>
+				<div class="col-md-7" style="margin:auto; ">
+				<div class="row p-2">
+					<div class="col-12 p-1" style="border:1px solid black; border-radius: 5px;">
+						<div class="card">
+							<img src="@obj.Post.Picture" class="card-img-top rounded"/>
 
-								<div class="card-body">
-									<div class="pl-1">
-												<p class="card-title h5 text-primary">@obj.Post.Title</p>
-												<p class="card-title text-info">by <b>@obj.Post.User.FirstName</b></p>
-									</div>
+							<div class="card-body">
+								<div class="pl-1">
+											<p class="card-title h5 text-primary">@obj.Post.Title</p>
+											<p class="card-title text-info">by <b>@obj.Post.User.FirstName</b></p>
 								</div>
 							</div>
-							<div class="col-2">
-								<a asp-action="Details" class="btn form-control col-2" asp-route-id="@obj.Post.Id">
-									@for(int i = 0; i< obj.snippet.Length; i++){
-									@obj.snippet[i]
-									;
-									if(i == 43)
-									{
-										<br />
-									}
+						</div>
+						<div class="col-2">
+							<a asp-action="Details" class="btn form-control col-2" asp-route-id="@obj.Post.Id">
+								@for(int i = 0; i< obj.snippet.Length; i++){
+								@obj.snippet[i]
+								;
+								if(i == 43)
+								{
+									<br />
 								}
-								<br />
-								Read More...
-								</a>
-							</div>
+							}
+							<br />
+							Read More...
+							</a>
+						</div>
 							
-						</div> 
-					</div>
+					</div> 
 				</div>
-        }
+			</div>
     }
+
+	<nav>
+		@if(Model.ToList().Count() > 0){
+		  <ul class="pagination">
+				@if (Model.ElementAt(0).TagEnable != null)
+				{
+					<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage-1)" asp-route-id="@Model.ElementAt(0).TagEnable">Next</a></li>
+				}
+				else
+				{
+					<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage-1)">Next</a></li>
+				}
+				@for(int i = 0; i < Model.ElementAt(0).MaxPages; i++)
+				{
+					@if (i+1 == Model.ElementAt(0).CurrentPage)
+					{
+						@if (Model.ElementAt(0).TagEnable != null)
+						{
+							<li class="page-item active">
+								<a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(i+1)" asp-route-id="@Model.ElementAt(0).TagEnable">@(i+1)</a>
+							</li>
+						}
+						else
+						{
+							<li class="page-item active">
+								<a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(i+1)" >@(i + 1)</a>
+							</li>
+						}
+					}
+					else
+					{
+						@if (Model.ElementAt(0).TagEnable != null)
+						{
+							<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(i+1)" asp-route-id="@Model.ElementAt(0).TagEnable">@(i + 1)</a></li>
+						}
+						else
+						{
+							<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(i+1)" >@(i + 1)</a></li>
+						}
+					}
+				}
+				@if (Model.ElementAt(0).CurrentPage != Model.ElementAt(0).MaxPages)
+				{
+					@if (Model.ElementAt(0).TagEnable != null)
+					{
+						<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage+1)" asp-route-id="@Model.ElementAt(0).TagEnable">Next</a></li>
+					}
+					else
+					{
+						<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage+1)">Next</a></li>
+					}
+				}
+			</ul>
+		}
+	</nav>
 </div>

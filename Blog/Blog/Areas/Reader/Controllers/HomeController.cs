@@ -2,9 +2,12 @@
 using Blog.DataAccess.Repository.IRepository;
 using Blog.Models;
 using Blog.Models.ViewModels;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Reflection.Metadata;
@@ -19,18 +22,34 @@ public class HomeController : Controller
     private readonly IUnitOfWork _unitOfWork;
     private readonly ApplicationDbContext _db;
     private readonly UserManager<IdentityUser> _userManager;
-    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, ApplicationDbContext db,UserManager<IdentityUser> userManager )
+    private readonly NavigationManager _nav;
+    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, ApplicationDbContext db,UserManager<IdentityUser> userManager, NavigationManager nav)
     {
         _logger = logger;
         _unitOfWork= unitOfWork;
         _db = db;
         _userManager= userManager;
+        _nav = nav;
     }
 
-    public IActionResult Index()
+  
+    
+    public IActionResult Index(int? id, int? page = 1)
     {
-        List<PostUserVM> postUserVmList = new List<PostUserVM>();
+        List<PostUserVM> postUserVmList = new List<PostUserVM>(); 
+        int pageC = 1;
         IEnumerable<Post> postsFromDb = _unitOfWork.Post.GetAll("User,Tags");
+        int? tagEnable = null;
+        if(id != null)
+        {
+            tagEnable = id;
+			Tag tag = _unitOfWork.Tag.GetFirstOrDefault(x => x.Id == id);
+			postsFromDb = postsFromDb.Where(x => x.Tags.Contains(tag));
+		}
+        int lenghtList = postsFromDb.ToList().Count();
+        postsFromDb = postsFromDb.Skip((int)((page - 1) * 2)).Take(2);
+        lenghtList = Decimal.ToInt32((decimal)Math.Ceiling((float)lenghtList / 2));
+
         foreach (Post post in postsFromDb)
         {
             string snippet = "";
@@ -45,7 +64,10 @@ public class HomeController : Controller
             PostUserVM postUserVM = new()
             {
                 Post = post,
-                snippet= snippet
+                snippet = snippet,
+                MaxPages = lenghtList,
+                CurrentPage = (int)page,
+                TagEnable = tagEnable
             };
             if(postUserVM != null)
             {
@@ -81,7 +103,8 @@ public class HomeController : Controller
             PostUserVM postUserVM = new()
             {
                 Post = post,
-                snippet = snippet
+                snippet = snippet,
+
             };
             if (postUserVM != null)
             {
@@ -102,10 +125,17 @@ public class HomeController : Controller
         post.Likes += 1;
         _unitOfWork.Post.Update(post);
         _unitOfWork.Save();
-        return RedirectToAction("Details", post);
+        return View("Details", post);
     }
     public IActionResult Details(int? id)
     {
+        User user = new();
+        if (User.Identity.IsAuthenticated)
+        {
+            var claimsIdentiy = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentiy.FindFirst(ClaimTypes.NameIdentifier);
+            user = (User)_userManager.Users.FirstOrDefault(x => x.Id == claim.Value);
+        }
         if (id == null || id == 0)
         {
             return NotFound();
@@ -122,7 +152,8 @@ public class HomeController : Controller
         PostCommentVM postComment = new()
         {
             Post = post,
-            CommentList = comments
+            CommentList = comments,
+            User = user
         };
         return View(postComment);
     }

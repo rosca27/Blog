@@ -24,10 +24,11 @@ public class CommentController : Controller
         Post post = _db.Posts.FirstOrDefault(p => p.Id == id);
         IEnumerable<Comment> comments = _unitOfWork.Comment.GetAll("User");
         comments = comments.Where(p => p.Post == post);
-
         return View(comments);
+
     }
-    public IActionResult Delete(int? id)
+    [HttpPost]
+    public IActionResult Delete(int id)
     {
         Comment comment= _unitOfWork.Comment.GetFirstOrDefault(p => p.Id == id, "Post");
         int idC = comment.Post.Id;
@@ -37,7 +38,7 @@ public class CommentController : Controller
             _unitOfWork.Save();
         }
 
-        return RedirectToAction("Index");
+        return RedirectToAction("Index","Home");
     }
 }
 
