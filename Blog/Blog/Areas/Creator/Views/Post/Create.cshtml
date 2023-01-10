@@ -1,0 +1,40 @@
+﻿@model Blog.Models.ViewModels.PostVM
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <input asp-for="Post.Id" hidden />
+    <input asp-for="Post.Picture" hidden />
+    <input asp-for="Post.User" hidden />
+    
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+                <div class="col-12 pb-2">
+                    <h2 class="text-primary">Create Post</h2>
+                    <hr />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Post.Title"></label>
+                <input asp-for="Post.Title" class="form-control"/>
+                <span asp-validation-for="Post.Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Post.Content"></label>
+                <textarea asp-for="Post.Content" rows="3" class="form-control"></textarea>
+                <span asp-validation-for="Post.Content" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Post.Picture"></label>
+                <input type="file" id="uploadBox" name="file" class="form-control" />
+            </div>
+            <div class="mb-3 col-6">
+                <label>Select Tag</label>
+                <select multiple="multiple" asp-for="TagString" asp-items="Model.TagList"class="multi-select form-control selectpicker" >
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        </div>
+    </div>
+
+</form>

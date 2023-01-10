@@ -1,0 +1,62 @@
+﻿@using Blog.Utility;
+@model IEnumerable<Comment>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Post List</h2>
+        </div>
+        <div class="col-6 text-end">
+            @if (User.IsInRole(SD.Role_Creator))
+            {
+                    <a asp-controller="Post" asp-action="Create" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> &nbsp; Create New Post
+                </a>
+            }
+        </div>
+    </div>
+    <br /><br />
+
+<table class="table table-bordered table-striped" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                Comment
+            </th>
+            <th>
+                Create Date
+            </th>
+            <th>
+                Creator
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var obj in Model)
+            {
+                    <tr>
+                        <td width="50%">
+                        @obj.Content
+                        </td>
+                        <td width="30%">
+                        @obj.CreateDate
+                        </td>
+                        <td width="30%">
+                        @obj.User.FirstName
+                        </td>
+                        <td>
+                            <div class="w-75 btn-group" role="group">
+                                <a asp-area="Reader" asp-controller="Comment" asp-action="Delete" asp-route-id="@obj.Id"
+                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+            }
+    </tbody>
+
+</table>
+</div>

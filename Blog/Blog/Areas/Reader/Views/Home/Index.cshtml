@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@model List<Blog.Models.ViewModels.PostUserVM>
+
+<div class="text-center">
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <h1>Log In to see the posts from all Users</h1>
+    }
+    else
+    {
+        foreach(var obj in Model)
+        {
+					<div class="col-md-7" style="margin:auto; ">
+					<div class="row p-2">
+						<div class="col-12 p-1" style="border:1px solid black; border-radius: 5px;">
+							<div class="card">
+								<img src="@obj.Post.Picture" class="card-img-top rounded"/>
+
+								<div class="card-body">
+									<div class="pl-1">
+												<p class="card-title h5 text-primary">@obj.Post.Title</p>
+												<p class="card-title text-info">by <b>@obj.Post.User.FirstName</b></p>
+									</div>
+								</div>
+							</div>
+							<div class="col-2">
+								<a asp-action="Details" class="btn form-control col-2" asp-route-id="@obj.Post.Id">
+									@for(int i = 0; i< obj.snippet.Length; i++){
+									@obj.snippet[i]
+									;
+									if(i == 43)
+									{
+										<br />
+									}
+								}
+								<br />
+								Read More...
+								</a>
+							</div>
+							
+						</div> 
+					</div>
+				</div>
+        }
+    }
+</div>

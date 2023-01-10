@@ -1,0 +1,69 @@
+﻿@model Blog.Models.ViewModels.PostCommentVM
+
+<form method="post"  asp-area="Reader" asp-controller="Home" asp-action="AddComment" asp-route-id="@Model.Post.Id">
+        <div class="container">
+            <div class="card-header bg-primary text-light ml-0  row ">
+                <div class="col-12 col-md-6">
+                    <h1 class="text-white-50">@Model.Post.Title</h1>
+                    <p class="text-warning">by @Model.Post.User.FirstName</p>
+                </div>
+                <div class="col-12 col-md-6 text-end pt-4">
+                @foreach (Tag tag in Model.Post.Tags)
+                {
+                    <a asp-area="Reader" asp-controller="Home" asp-action="TagIndex" asp-route-id="@tag.Id"
+                        class="badge bg-info pt-2" style="height:30px;">@tag.Name</a>
+                }
+                </div>
+            </div>
+            <div class="card-body row container">
+                <div class="container rounded p-2">
+                    <div class="text-lg-center"style="width:80%;height:auto;">
+                        <img src="@Model.Post.Picture" width="100%" class="rounded center" />
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-2">
+                            <a asp-area="Reader" asp-controller="Home" asp-action="Like" asp-route-id="@Model.Post.Id"
+                            class="btn btn-primary mr-2"> <i class="bi bi-hand-thumbs-up"></i> Like</a>
+                            <p>@Model.Post.Likes</p>
+                        </div>
+                    </div>
+                    <div class="col-8 col-lg-8">
+                        <p>@Model.Post.Content</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body row container">
+                <div class="row" style="resize:none">
+                    @Html.TextArea("Message")
+                </div>
+                <div class="col-2">
+                    <br />
+                    <button type="submit" class="btn btn-secondary form-control " style="height:50px;">Add comment</button>
+                </div>
+            </div>
+        @foreach (Comment comment in Model.CommentList)
+            {
+
+                <div class="card">
+                    <div class="card-body row container">
+                        <div class="row">
+                            <div class="col-12 ">
+                                <label>@comment.User.FirstName</label>
+                                <textarea asp-for="@comment.Content" rows="3" class="form-control" style="resize:none"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+            }
+            <div class="card-body row container">
+                <div class="row">
+                    <div class="col-12 ">
+                        <a class="btn btn-success form-control " style="height:50px;" asp-action="Index">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+</form>

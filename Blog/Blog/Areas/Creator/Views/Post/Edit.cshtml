@@ -1,0 +1,44 @@
+﻿@model Blog.Models.ViewModels.PostVM
+
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <input asp-for="Post.Id" hidden />
+    <input asp-for="Post.Picture" hidden />
+
+    <div class="row">
+        <div class="col-10">
+            <div class="border p-3 mt-4 row">
+                <div class="col-12 pb-2">
+                    <h2 class="text-primary">Edit Post</h2>
+                    <hr />
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Post.Title"></label>
+                <input asp-for="Post.Title" class="form-control"/>
+                <span asp-validation-for="Post.Title" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Post.Content"></label>
+                <textarea asp-for="Post.Content" rows="3" class="form-control"></textarea>
+                <span asp-validation-for="Post.Content" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Post.Picture"></label>
+                <input type="file" id="uploadBox" name="file" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:150px">Edit</button>
+        </div>
+        <div class="col-2 pt-4">
+            <img src="@Model.Post.Picture"
+			width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
+        </div>
+        <div class="mb-3 col-6">
+                <label>Select Tag</label>
+                <select multiple="multiple" asp-for="TagString" asp-items="Model.TagList"class="multi-select form-control selectpicker" >
+                </select>
+        </div>
+    </div>
+
+</form>
+
