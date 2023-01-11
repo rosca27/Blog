@@ -1,4 +1,6 @@
-﻿using Blog.DataAccess.Data;
+﻿using Azure;
+using Blog.DataAccess.Data;
+using Blog.DataAccess.Migrations;
 using Blog.DataAccess.Repository.IRepository;
 using Blog.Models;
 using Blog.Models.ViewModels;
@@ -32,64 +34,39 @@ public class HomeController : Controller
         _nav = nav;
     }
 
-  
-    
-    public IActionResult Index(int? id, int? page = 1)
+
+
+    public IActionResult Index(string? value, string? searchType, int? id, int? page = 1)
     {
-        List<PostUserVM> postUserVmList = new List<PostUserVM>(); 
-        int pageC = 1;
+        List<PostUserVM> postUserVmList = new List<PostUserVM>();
         IEnumerable<Post> postsFromDb = _unitOfWork.Post.GetAll("User,Tags");
         int? tagEnable = null;
-        if(id != null)
+        string? titleEnable = null;
+        if (id != null)
         {
             tagEnable = id;
 			Tag tag = _unitOfWork.Tag.GetFirstOrDefault(x => x.Id == id);
 			postsFromDb = postsFromDb.Where(x => x.Tags.Contains(tag));
+		}
+        if (value != null && searchType == "tag")
+        {
+			Tag tag = _unitOfWork.Tag.GetFirstOrDefault(x => x.Name == value);
+            if (tag != null)
+            {
+                tagEnable = tag.Id;
+            }
+			postsFromDb = postsFromDb.Where(x => x.Tags.Contains(tag));
+		}
+        if (value != null && searchType == "title")
+        {
+			postsFromDb = postsFromDb.Where(x => x.Title.ToLower().Contains(value.ToLower()));
+            titleEnable = value;
 		}
         int lenghtList = postsFromDb.ToList().Count();
         postsFromDb = postsFromDb.Skip((int)((page - 1) * 2)).Take(2);
         lenghtList = Decimal.ToInt32((decimal)Math.Ceiling((float)lenghtList / 2));
 
         foreach (Post post in postsFromDb)
-        {
-            string snippet = "";
-            for(int i = 0; i< 200; i++)
-            {
-                if(i == post.Content.Length - 2)
-                {
-                    break;
-                }
-                snippet = snippet + post.Content[i];
-            }
-            PostUserVM postUserVM = new()
-            {
-                Post = post,
-                snippet = snippet,
-                MaxPages = lenghtList,
-                CurrentPage = (int)page,
-                TagEnable = tagEnable
-            };
-            if(postUserVM != null)
-            {
-                postUserVmList.Add(postUserVM);
-            }
-			
-        }
-        if (postUserVmList != null)
-        {
-            return View(postUserVmList);
-        }
-        return View();
-    }
-
-    public IActionResult TagIndex(int? id)
-    {
-        IEnumerable<Post> objPostList = _unitOfWork.Post.GetAll("Tags,Comments,User");
-        Tag tag = _unitOfWork.Tag.GetFirstOrDefault(x => x.Id == id);
-        objPostList = objPostList.Where(x => x.Tags.Contains(tag));
-        List<PostUserVM> postUserVmList = new List<PostUserVM>();
-
-        foreach (Post post in objPostList)
         {
             string snippet = "";
             for (int i = 0; i < 200; i++)
@@ -104,8 +81,11 @@ public class HomeController : Controller
             {
                 Post = post,
                 snippet = snippet,
-
-            };
+                MaxPages = lenghtList,
+                CurrentPage = (int)page,
+                TagEnable = tagEnable,
+                TitleEnable = titleEnable
+			};
             if (postUserVM != null)
             {
                 postUserVmList.Add(postUserVM);
@@ -114,18 +94,33 @@ public class HomeController : Controller
         }
         if (postUserVmList != null)
         {
-            return View("Index",postUserVmList);
+            return View(postUserVmList);
         }
         return View();
     }
 
     public IActionResult Like(int? id)
     {
-        Post post = _unitOfWork.Post.GetFirstOrDefault(x => x.Id == id, "User,Tags");
+		User user = new();
+		if (User.Identity.IsAuthenticated)
+		{
+			var claimsIdentiy = (ClaimsIdentity)User.Identity;
+			var claim = claimsIdentiy.FindFirst(ClaimTypes.NameIdentifier);
+			user = (User)_userManager.Users.FirstOrDefault(x => x.Id == claim.Value);
+		}
+		Post post = _unitOfWork.Post.GetFirstOrDefault(x => x.Id == id, "User,Tags,Comments");
         post.Likes += 1;
         _unitOfWork.Post.Update(post);
         _unitOfWork.Save();
-        return View("Details", post);
+		IEnumerable<Comment> comments = _unitOfWork.Comment.GetAll("User,Post");
+		comments = comments.Where(x => x.Post == post);
+		PostCommentVM postComment = new()
+		{
+			Post = post,
+			CommentList = comments,
+			User = user
+		};
+		return View("Details", postComment);
     }
     public IActionResult Details(int? id)
     {

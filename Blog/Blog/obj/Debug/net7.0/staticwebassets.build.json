@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "MhnPdiyRlyoHH8lGRtsw7PpsVGKp2TTjgeV8UvsO794=",
+  "Hash": "nRl/gHXYHjMDZb1BqJXweIc0RkTsUy7jaYpSD6wEuBs=",
   "Source": "Blog",
   "BasePath": "_content/Blog",
   "Mode": "Default",
@@ -1122,6 +1122,23 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\03595c92-6ebb-47ff-8d37-9f39e64f8d99.jpg",
+      "SourceId": "Blog",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\",
+      "BasePath": "_content/Blog",
+      "RelativePath": "images/posts/03595c92-6ebb-47ff-8d37-9f39e64f8d99.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\posts\\03595c92-6ebb-47ff-8d37-9f39e64f8d99.jpg"
+    },
+    {
       "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\0f307f7e-25d0-4171-8e94-4a849b65ddf5.jpg",
       "SourceId": "Blog",
       "SourceType": "Discovered",
@@ -1156,6 +1173,23 @@
       "OriginalItemSpec": "wwwroot\\images\\posts\\17205c10-1379-4ee9-894f-c26343d2a5af.jpg"
     },
     {
+      "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\279c96d3-97fe-428b-8cc9-f4de339304b8.jpg",
+      "SourceId": "Blog",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\",
+      "BasePath": "_content/Blog",
+      "RelativePath": "images/posts/279c96d3-97fe-428b-8cc9-f4de339304b8.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\posts\\279c96d3-97fe-428b-8cc9-f4de339304b8.jpg"
+    },
+    {
       "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\38843abe-9708-4cf3-be09-eefc2b0d0a50.jpg",
       "SourceId": "Blog",
       "SourceType": "Discovered",
@@ -1171,6 +1205,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\posts\\38843abe-9708-4cf3-be09-eefc2b0d0a50.jpg"
+    },
+    {
+      "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\5870b4f6-0ac0-4e78-8a5e-fa32ae1b3b04.jpg",
+      "SourceId": "Blog",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\",
+      "BasePath": "_content/Blog",
+      "RelativePath": "images/posts/5870b4f6-0ac0-4e78-8a5e-fa32ae1b3b04.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\posts\\5870b4f6-0ac0-4e78-8a5e-fa32ae1b3b04.jpg"
     },
     {
       "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\61b76b92-24f1-48a5-9b97-dce43444d5c1.jpg",
@@ -1241,6 +1292,23 @@
       "OriginalItemSpec": "wwwroot\\images\\posts\\910d147a-2b6b-44a9-b0c2-dd8659a8a737.jpg"
     },
     {
+      "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\b97e99ad-d6de-48c8-b3a2-2601abf1192a.jpg",
+      "SourceId": "Blog",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\",
+      "BasePath": "_content/Blog",
+      "RelativePath": "images/posts/b97e99ad-d6de-48c8-b3a2-2601abf1192a.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\posts\\b97e99ad-d6de-48c8-b3a2-2601abf1192a.jpg"
+    },
+    {
       "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\c95fce8b-8bd5-412c-ae81-a55e8c3123f7.jpg",
       "SourceId": "Blog",
       "SourceType": "Discovered",
@@ -1256,6 +1324,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\posts\\c95fce8b-8bd5-412c-ae81-a55e8c3123f7.jpg"
+    },
+    {
+      "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\ce9a05cc-df2c-4a52-8ee3-536139ece721.jpg",
+      "SourceId": "Blog",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\",
+      "BasePath": "_content/Blog",
+      "RelativePath": "images/posts/ce9a05cc-df2c-4a52-8ee3-536139ece721.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\posts\\ce9a05cc-df2c-4a52-8ee3-536139ece721.jpg"
     },
     {
       "Identity": "D:\\c# projects\\Blog\\Blog\\Blog\\wwwroot\\images\\posts\\db838a93-386e-403c-aba3-f278d53ca07a.jpg",

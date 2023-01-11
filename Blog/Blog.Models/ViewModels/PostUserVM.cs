@@ -21,6 +21,8 @@ namespace Blog.Models.ViewModels
 		public int MaxPages { get; set; } 
 		public int CurrentPage { get; set; } 
         public int? TagEnable { get; set; }
+        public string? TitleEnable { get; set; }
+		public string? SearchType { get; set;}
 
 	}
 }

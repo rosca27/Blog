@@ -1,6 +1,22 @@
 ﻿@model List<Blog.Models.ViewModels.PostUserVM>
 
 <div class="text-center">
+	<form asp-action="Index">
+		<div class="row">
+			<div class="col-2 row-2" style="resize:none">
+				@Html.TextArea("value")
+				<div class="dropdown">
+					<a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Search Type
+					</a>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+						<button type="submit" class="dropdown-item" asp-route-searchType="tag">Tag</button>
+						<button type="submit" class="dropdown-item" asp-route-searchType="title">Title</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
     @foreach(var obj in Model)
     {
 				<div class="col-md-7" style="margin:auto; ">
@@ -38,14 +54,21 @@
 
 	<nav>
 		@if(Model.ToList().Count() > 0){
-		  <ul class="pagination">
-				@if (Model.ElementAt(0).TagEnable != null)
+			<ul class="pagination">
+				@if (Model.ElementAt(0).CurrentPage != 1)
 				{
-					<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage-1)" asp-route-id="@Model.ElementAt(0).TagEnable">Next</a></li>
-				}
-				else
-				{
-					<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage-1)">Next</a></li>
+					@if (Model.ElementAt(0).TagEnable != null)
+					{
+						<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage-1)" asp-route-id="@Model.ElementAt(0).TagEnable">Previous</a></li>
+					}
+					else if (Model.ElementAt(0).TitleEnable != null)
+					{
+						<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage-1)" asp-route-titlee="@Model.ElementAt(0).TitleEnable">Previous</a></li>
+					}
+					else
+					{
+						<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage-1)">Previous</a></li>
+					}
 				}
 				@for(int i = 0; i < Model.ElementAt(0).MaxPages; i++)
 				{
@@ -55,6 +78,12 @@
 						{
 							<li class="page-item active">
 								<a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(i+1)" asp-route-id="@Model.ElementAt(0).TagEnable">@(i+1)</a>
+							</li>
+						}
+						else if (Model.ElementAt(0).TitleEnable != null)
+						{	
+							<li class="page-item active">
+								<a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(i+1)" asp-route-titlee="@Model.ElementAt(0).TitleEnable">@(i + 1)</a>
 							</li>
 						}
 						else
@@ -70,6 +99,10 @@
 						{
 							<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(i+1)" asp-route-id="@Model.ElementAt(0).TagEnable">@(i + 1)</a></li>
 						}
+						else if (Model.ElementAt(0).TitleEnable != null)
+						{
+							<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(i+1)" asp-route-titlee="@Model.ElementAt(0).TitleEnable">@(i + 1)</a></li>
+						}
 						else
 						{
 							<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(i+1)" >@(i + 1)</a></li>
@@ -81,6 +114,10 @@
 					@if (Model.ElementAt(0).TagEnable != null)
 					{
 						<li class="page-item"><a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage+1)" asp-route-id="@Model.ElementAt(0).TagEnable">Next</a></li>
+					}
+					else if (Model.ElementAt(0).TitleEnable != null)
+					{
+						<a class="page-link" asp-controller="Home" asp-action="Index" asp-route-page="@(Model.ElementAt(0).CurrentPage+1)" asp-route-titlee="@Model.ElementAt(0).TitleEnable">Next</a>
 					}
 					else
 					{
